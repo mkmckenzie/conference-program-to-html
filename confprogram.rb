@@ -62,7 +62,7 @@ class ConfProgram
       if day_of_week[1].empty?
         @schedule << "\n"
       else
-      @schedule << "<h2 class=\"titleDate\">#{day_of_week[0]}</h2>\n
+      @schedule << "<h2 class=\"titleDate\">#{day_of_week[0]}</h2>\n<br />
       <table class=\"schedule\" id=\"#{day_of_week.first[/^(\w+\b)/].downcase}\">"
       @schedule << self.format_daily_schedule(day_of_week[1]).to_s
       @schedule << "</table> \n
@@ -93,16 +93,12 @@ class ConfProgram
          #{start_time} &ndash; #{end_time}\n
           </td> \n
           <td class=\"#{conf_code} sessionInfo\"> \n
-          <strong>#{session_title}</strong><br />\n
-          <em>#{speakers}</em>\n
-          <br />#{location}<br /><br />#{summary}<br />"
-        if row[7] == "#"
-         @daily_schedule << "\n"
-        else
-          @daily_schedule  << "<br /><a href=\"#{link}\">Click here for more information</a>\n"        
-        end
-        @daily_schedule << "</td>\n
-        </tr>"
+          <strong>#{session_title}</strong>\n"
+          @daily_schedule << "<br class=\"beforelocation\"/><em>#{speakers}</em>\n"  if speakers != "."
+          @daily_schedule << "<br class=\"beforespeakers\"/>#{location}<br class=\"afterlocation\"/>" if location != "."        
+          @daily_schedule << "<br class=\"beforesummary\"/>#{summary}<br class=\"aftersummary\"/>" unless summary == "."
+          @daily_schedule << "<br /><a href=\"#{link}\">Click here for more information</a>\n" if link != "#"
+        @daily_schedule << "</td>\n</tr>"
         @number_of_sessions += 1
     end
     #Doesn't work without explicitly stating return value!!!!
