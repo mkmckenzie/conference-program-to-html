@@ -1,45 +1,41 @@
 require 'csv'
 
-#program = CSV.read('program.csv') 
-
-#CSV.foreach('program.csv') do |row|
-#	puts row.inspect
-#end
-
 class ConfProgram
 	def initialize(file_to_format)
 		@file_to_format = file_to_format
-	end
-
-	def break_it_up
 		@saturday = []
 		@sunday = []
 		@monday = []
 		@tuesday = []
 		@wednesday = []
 		@thursday = []
+	end
+
+	def break_it_up
 		CSV.foreach(@file_to_format) do |row|
-			@saturday << row if row[0].include?"August 20"
-			@sunday << row if row[0].include?"August 21"
-			@monday << row if row[0].include?"August 22"
-			@tuesday << row if row[0].include?"August 23"
-			@wednesday << row if row[0].include?"August 24"
-			@thursday << row if row[0].include?"August 25"
+			@saturday << row if row[0].include?"April 2"
+			@sunday << row if row[0].include?"April 3"
+			@monday << row if row[0].include?"April 4"
+			@tuesday << row if row[0].include?"April 5"
+			@wednesday << row if row[0].include?"April 6"
+			@thursday << row if row[0].include?"April 7"
 		end
-
-
 
 	end
 
 	def format_dates
 		self.break_it_up
-		conf_dates = [["Saturday, August 20, 2016", @saturday], ["Sunday, August 21, 2016", @sunday],["Monday, August 22, 2016", @monday], ["Tuesday, August 23, 2016", @tuesday], ["Wednesday, August 24, 2016", @wednesday], ["Thursday, August 25, 2016", @thursday]]
+		conf_dates = [["Saturday, April 2, 2016", @saturday], ["Sunday, April 3, 2016", @sunday],["Monday, April 4, 2016", @monday], ["Tuesday, April 5, 2016", @tuesday], ["Wednesday, April 6, 2016", @wednesday], ["Thursday, April 7, 2016", @thursday]]
 		conf_dates.each do |day_of_week|
-			puts "<h2 class=\"titleDate\">#{day_of_week.first}</h2>"
-			puts "<table class=\"#{day_of_week.first}\">"
+			if day_of_week[1].empty?
+				puts "\n"
+			else
+			puts "<h2 class=\"titleDate\">#{day_of_week[0]}</h2>"
+			puts "<table id=\"#{day_of_week.first[/^(\w+\b)/].downcase}\">"
 			self.format_this_shit(day_of_week[1])
 			puts "</table>"
 			puts "<hr />"
+			end
 		end
 		
 	end
@@ -67,7 +63,7 @@ class ConfProgram
 				if row[7] == "#"
 					puts "\n"
 				else
-					puts "<a href=\"#{link}\">Click here for more information</a>"				
+					puts "<br /><a href=\"#{link}\">Click here for more information</a>"				
 				end
 				puts "</td>"
 			puts "</tr>"
