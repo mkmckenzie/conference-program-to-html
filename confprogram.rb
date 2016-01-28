@@ -11,9 +11,9 @@ class ConfProgram
     @tuesday = []
     @wednesday = []
     @thursday = []
-
+    puts "Starting program build....."
   end
-
+=begin
   def get_variables
     @conf_dates = []
     CSV.foreach(@date_file) do |row|
@@ -23,16 +23,23 @@ class ConfProgram
       day << day_name.instance_variable_set("@#{day_name}", day_name)
       @conf_dates << day
     end
+    #get rid of headers
+    @conf_dates.delete_at(0)
 
-    puts @conf_dates[1].class
+    #@conf_dates.each do |row|
+    #  row[1] = []
+    #end
+
+    puts @conf_dates
     #puts conf_dates[0][1].instance_variable_defined?("@weekday")
     #puts conf_dates[0][1].class
 
 
   end
 
-
+=end
   def sort_by_day
+    i = 0
     CSV.foreach(@file_to_format) do |row|
       @saturday << row if row[0].include?"April 2"
       @sunday << row if row[0].include?"April 3"
@@ -40,28 +47,36 @@ class ConfProgram
       @tuesday << row if row[0].include?"April 5"
       @wednesday << row if row[0].include?"April 6"
       @thursday << row if row[0].include?"April 7"
+      i += 1
     end
-
+    puts "#{i} rows sorted by day"
   end
 
   def build_program
+    #self.get_variables
     self.sort_by_day
     @schedule = ""
-    @conf_dates.each do |day_of_week|
+    week_dates = [["Saturday, April 2, 2016", @saturday], ["Sunday, April 3, 2016", @sunday], ["Monday, April 4, 2016", @monday], ["Tuesday, April 5, 2016", @tuesday], ["Wednesday, April 6, 2016", @wednesday], ["Thursday, April 7, 2016", @thursday]]
+    week_dates.each do |day_of_week|
+      #puts day_of_week[1]
       if day_of_week[1].empty?
         @schedule << "\n"
       else
       @schedule << "<h2 class=\"titleDate\">#{day_of_week[0]}</h2>\n
-      <table id=\"#{day_of_week.first[/^(\w+\b)/].downcase}\">"
+      <table class=\"schedule\" id=\"#{day_of_week.first[/^(\w+\b)/].downcase}\">"
       @schedule << self.format_daily_schedule(day_of_week[1]).to_s
       @schedule << "</table> \n
       <hr />"
+      puts "#{@number_of_sessions} added to #{day_of_week[0]}"
       end
     end
+    puts "Program built"
+
   end
 
   def format_daily_schedule(day_of_week)
     @daily_schedule = ""
+    @number_of_sessions = 0
     day_of_week.each do |row|
       session_date = row[0]
       start_time = row[1]
@@ -72,7 +87,7 @@ class ConfProgram
       conf_code = row[6]
       link = row[7]
       location = row[8]
-      speakers.gsub!(/,/, '<br />') if speakers.include?","
+      speakers.to_s.gsub!(/;/, '<br />') if speakers.include?";"
         @daily_schedule << "<tr> \n
           <td class=\"#{conf_code} dateTime\"> \n
          #{start_time} &ndash; #{end_time}\n
@@ -88,8 +103,10 @@ class ConfProgram
         end
         @daily_schedule << "</td>\n
         </tr>"
+        @number_of_sessions += 1
     end
-    return @daily_schedule
+    #Doesn't work without explicitly stating return value!!!!
+  return @daily_schedule
   end
 
   def export_program_to_file
@@ -97,10 +114,14 @@ class ConfProgram
     output = File.open(@file_to_export, "w")
     output.puts @schedule
     output.close
+    puts "HTML Exported to File"
   end
 
 end
 
-swanapalooza = ConfProgram.new('program.csv', 'conf-dates.csv', 'program.html')
-swanapalooza.get_variables
+swanapalooza = ConfProgram.new('swanapalooza.utf8.csv', 'conf-dates.csv', 'SPprogram.html')
+swanapalooza.export_program_to_file
+
+#testrun = ConfProgram.new('program.csv', 'conf_dates.csv', 'program.html')
+#testrun.export_program_to_file
 
