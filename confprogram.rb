@@ -1,16 +1,36 @@
 require 'csv'
 
 class ConfProgram
-  def initialize(file_to_format, file_to_export)
+  def initialize(file_to_format, date_file, file_to_export)
     @file_to_format = file_to_format
+    @file_to_export = file_to_export
+    @date_file = date_file
     @saturday = []
     @sunday = []
     @monday = []
     @tuesday = []
     @wednesday = []
     @thursday = []
-    @file_to_export = file_to_export
+
   end
+
+  def get_variables
+    @conf_dates = []
+    CSV.foreach(@date_file) do |row|
+      day = []
+      day << "#{row[0]}, #{row[1]} #{row[2]}, #{row[3]}"
+      day_name = row[0].downcase
+      day << day_name.instance_variable_set("@#{day_name}", day_name)
+      @conf_dates << day
+    end
+
+    puts @conf_dates[1].class
+    #puts conf_dates[0][1].instance_variable_defined?("@weekday")
+    #puts conf_dates[0][1].class
+
+
+  end
+
 
   def sort_by_day
     CSV.foreach(@file_to_format) do |row|
@@ -26,9 +46,8 @@ class ConfProgram
 
   def build_program
     self.sort_by_day
-    conf_dates = [["Saturday, April 2, 2016", @saturday], ["Sunday, April 3, 2016", @sunday],["Monday, April 4, 2016", @monday], ["Tuesday, April 5, 2016", @tuesday], ["Wednesday, April 6, 2016", @wednesday], ["Thursday, April 7, 2016", @thursday]]
     @schedule = ""
-    conf_dates.each do |day_of_week|
+    @conf_dates.each do |day_of_week|
       if day_of_week[1].empty?
         @schedule << "\n"
       else
@@ -79,10 +98,9 @@ class ConfProgram
     output.puts @schedule
     output.close
   end
-    
 
 end
 
-swanapalooza = ConfProgram.new('program.csv', 'program.html')
-swanapalooza.export_program_to_file
+swanapalooza = ConfProgram.new('program.csv', 'conf-dates.csv', 'program.html')
+swanapalooza.get_variables
 
