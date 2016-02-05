@@ -98,7 +98,7 @@ class ConfProgram
           @daily_schedule << "<br class=\"beforespeakers\"/>#{location}<br class=\"afterlocation\"/>" if location != "."        
           @daily_schedule << "<br class=\"beforesummary\"/>#{summary}<br class=\"aftersummary\"/>" unless summary == "."
           @daily_schedule << "<br /><a href=\"#{link}\">Click here for more information</a>\n" if link != "#"
-        @daily_schedule << "</td>\n</tr>"
+        @daily_schedule << "<div class=\"circle\"></div></td>\n</tr>"
         @number_of_sessions += 1
     end
     #Doesn't work without explicitly stating return value!!!!
@@ -120,4 +120,6 @@ swanapalooza.export_program_to_file
 
 #testrun = ConfProgram.new('program.csv', 'conf_dates.csv', 'program.html')
 #testrun.export_program_to_file
+
+#iconv -c -t utf8 filename.csv > filename.utf8.csv
 
