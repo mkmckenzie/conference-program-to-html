@@ -1,0 +1,113 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+table.schedule {
+	width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+
+
+}
+
+table.schedule td {
+	padding: 10px;
+}
+
+
+
+h2.titleDate {
+	font-weight: bold;	
+}
+
+#jumpTo {
+	text-align: center;
+	width: 90%;
+	margin: 0 auto;
+	padding: 20px;
+	border: 1px solid #eaeaea;
+	line-height: normal;
+}
+
+#jumpTo div#confBox {
+	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+
+#jumpTo #confBox div.conf {
+	min-height: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#jumpTo #confBox div.conf div.circle{
+	height: 10px;
+	width: 10px;
+	display: inline-block;
+	float: none;
+	
+	
+}
+
+/*Conference Specific */
+td.all td.RTZW td.LF td.LGB td.LMOP td.YP {
+}
+
+/*data type specific */
+td.dateTime {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 30%;
+	vertical-align: top;
+}
+td.sessionInfo {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 70%;
+	vertical-align: top;
+}
+
+td.splitSessionInfo {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 35%;
+	vertical-align: top;
+}
+
+/* Circles to Indicate Conf */
+
+div.circle {
+	float: right;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+}
+
+.RTZW div.circle {
+	background-color: #8DC63F;
+}
+
+.LF div.circle {
+	background-color: #E86E34;
+}
+
+.LGB div.circle {
+	background-color: #BE1E2D;
+}
+
+.LMOP div.circle {
+	background-color: #944098;
+}
+
+.all div.circle {
+	display: none;
+}
+
+/* Sponsors Inline */
+
+img.sponsors {
+	max-width: 35%;
+	height: auto;
+	float: right;
+}

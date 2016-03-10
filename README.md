@@ -14,5 +14,10 @@ I built a small Ruby script that takes a unified CSV file of all the sessions wi
 - Move from table to divs, and more stylized
 - Move it to a rails app so staff can input sessions into form directly, eliminating the inputting step for me
 
+#Recent Developments
+
+##Importing Info Into Event App
+The simply named 'scrape.rb' script goes through session page links (found in swanapalooza.csv) and pulls off abstract information for sessions and biography information for speakers and puts them into templated spreadsheets so that they can be uploaded to our event app (on the DoubleDutch mobile event app platform.)
+
 
 
